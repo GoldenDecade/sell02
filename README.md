@@ -1,4 +1,3 @@
-# sell02
 
 > A Vue.js project
 
@@ -19,3 +18,6 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+=======
+# sell02
+>>>>>>> 9c3b9c3e43a3331894bb3a1c1d14f9562b4df547
