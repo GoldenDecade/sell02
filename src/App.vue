@@ -28,7 +28,7 @@ export default {
     this.$http.get('/api/seller?id='+this.seller.id).then((res) => {
       res = res.body
       if(res.errno === ERR_OK) {
-        //给this.seller 赋值0  Object.assign浅拷贝
+        //给this.seller 赋值  Object.assign浅拷贝
         this.seller = Object.assign({}, this.seller, res.body)
       }
     })
