@@ -27,5 +27,7 @@ export default new Router({
       name: 'seller',
       component: seller
     },
-  ]
+  ],
+  //激活时候的类名
+  linkActiveClass: 'active'
 })
