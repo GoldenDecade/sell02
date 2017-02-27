@@ -47,11 +47,19 @@
     <!--弹出页-->
     <transition name="fade">
       <div class="detail" v-show="detailShow">
-        <div class="detail-wrapper">
-          <div class="detail-main"></div>
+        <div class="detail-wrapper clearfix">
+          <div class="detail-main">
+            <h1 class="name">{{ seller.name }}</h1>
+            <div class="star-wrapper">
+              <star :size="48" :score="seller.score"></star>
+            </div>
+
+          </div>
         </div>
         <div class="detail-close" @click="hideDetail">
-          <i class="icon-close"></i>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-close"></use>
+          </svg>
         </div>
       </div>
     </transition>
@@ -60,6 +68,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import star from "components/star/star.vue"
 export default {
   props: {
     seller: {
@@ -82,13 +91,16 @@ export default {
   },
   created() {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+  },
+  components: {
+    star
   }
 }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/iconfont.css"
-  @import '../../common/stylus/mixin'
+  @import "../../common/stylus/mixin"
 .header
   position: relative
   overflow: hidden
@@ -114,7 +126,7 @@ export default {
           vertical-align: top
           width: 30px
           height: 18px
-          bg-image('brand')
+          bg-image(brand)
           background-size: 30px 18px
           background-repeat: no-repeat
         .name
@@ -219,6 +231,19 @@ export default {
       min-height: 100%
       .detail-main
         padding-bottom: 64px
+        h1
+          margin: 0
+          padding: 64px 0 16px 0
+          font-size: 16px
+          font-weight: 700
+          line-height: 16px
+          text-align: center
     .detail-close
       margin: -64px auto 0
+      height: 32px
+      font-size: 32px
+      text-align: center
+      color: rgba(255,255,255,0.5)
+
+
 </style>
