@@ -82,7 +82,6 @@
                 while( result.length < LENGTH) {
                     result.push(CLS_OFF)
                 }
-
                 return result
             }
         }
