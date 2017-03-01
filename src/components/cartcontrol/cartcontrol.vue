@@ -1,19 +1,23 @@
 <template>
   <div class="cartcontrol">
-    <div class="cart-decrease">
-      <svg class="icon inner" aria-hidden="true" v-show="food.count>0"
-           @click.stop.prevent="decreaseCart">
-        <use xlink:href="#icon-remove_circle_outline"></use>
-      </svg>
-    </div>
+    <transition name="move">
+      <div class="cart-decrease" v-show="food.count>0" >
+        <svg class="icon inner" aria-hidden="true"
+             @click.stop.prevent.capture="decreaseCart">
+          <use xlink:href="#icon-remove_circle_outline"></use>
+        </svg>
+      </div>
+    </transition>
 
     <div class="cart-count" v-show="food.count>0" >{{food.count}}</div>
+
     <div class="cart-add">
       <svg class="icon inner" aria-hidden="true"
-           @click.stop.prevent="addCart">
+           @click.stop.prevent.capture="addCart">
         <use xlink:href="#icon-add_circle"></use>
       </svg>
     </div>
+
   </div>
 </template>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -21,12 +25,27 @@
     .cart-decrease
       display inline-block
       vertical-align middle
+
+      /*最终状态*/
+      opacity: 1
+      transform: translate3d(0, 0, 0)
       .inner
         padding: 6px
+        display: inline-block
         font-size: 24px
         color: rgb(0, 160, 220)
         line-height 24px
-
+        /*最终状态*/
+        transform: rotate(0)
+      &.move-enter-active, &.move-leave-active
+        transition: all 0.4s linear
+        .inner
+          transition: all 0.4s linear
+      &.move-enter, &.move-leave-active
+        opacity: 0
+        transform: translate3d(24px, 0, 0)
+        .inner
+          transform: rotate(180deg)
     .cart-count
       display inline-block
       vertical-align middle
@@ -69,6 +88,8 @@
         } else {
           this.food.count++
         }
+        //告知父元素  现在点击的是哪个元素  从而得出元素的位置
+        //这样就确定了小球的起始点
         this.$emit('add', event.target)
       }
     }

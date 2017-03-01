@@ -42,6 +42,7 @@
                       <span class="now">￥{{food.price}}</span>
                       <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                     </div>
+                    <!--右侧加减号-->
                     <div class="cartcontrol-wrapper">
                       <cartcontrol @add="addFood"
                                    :food="food">
@@ -53,12 +54,14 @@
             </li>
           </ul>
         </div>
-        <!--底部购物车-->
-     <!--   <shopcart
+        <!--底部购物车  需要所选的商品（是一个数组）-->
+        <shopcart
           :minPrice="seller.minPrice"
           :deliveryPrice="seller.deliveryPrice"
           :selectFoods="selectFoods"
-        ></shopcart>-->
+          ref="shopcart"
+        ></shopcart>
+
       </div>
   </div>
 </template>
@@ -175,12 +178,14 @@ const ERR_OK = 0
     },
     data() {
       return {
-        goods: [],
+        goods: [], //请求过来的商品
         scrollY: 0,
-        listHeight: []  //存储左侧li所对应右侧的高度
+        listHeight: [],  //存储左侧li所对应右侧的高度
+
       }
     },
     computed: {
+      //当前右侧应该对应的是哪个li
       currentIndex() {
         //计算this.scrollY在this.listHeight中的位置
         //这样就知道index了
@@ -192,7 +197,20 @@ const ERR_OK = 0
           }
         }
         return 0
+      },
+      //已经选择的商品（就是food.count > 0的商品）
+      selectFoods() {
+        let foods = []
+        this.goods.forEach((good)=> {
+          good.foods.forEach((food)=> {
+            if(food.count > 0) {
+              foods.push(food)
+            }
+          })
+        })
+        return foods
       }
+
     },
     created() {
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
@@ -251,9 +269,16 @@ const ERR_OK = 0
         this.foodsScroll.scrollToElement(el, 300)
       },
       //点击加减号  让父组件产生变化
-      addFood() {
+      addFood(target) {
+        this._drop(target)
 
-      }
+      },
+      _drop(target) {
+        // 体验优化,异步执行下落动画
+        this.$nextTick(() => {
+          this.$refs.shopcart.drop(target);
+        });
+      },
     },
     components: {
       shopcart,
