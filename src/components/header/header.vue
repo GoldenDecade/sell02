@@ -24,10 +24,10 @@
       <!--显示详细优惠信息  5个-->
       <div v-if="seller.supports"
            class="support-count"
-           @click="showDetail"
       >
         <span class="count">{{ seller.supports.length}}个</span>
-        <svg class="icon" aria-hidden="true">
+        <svg class="icon" aria-hidden="true"
+             @click="showDetail">
           <use xlink:href="#icon-keyboard_arrow_right"></use>
         </svg></div>
       <!--弹出页-->
@@ -53,11 +53,35 @@
             <div class="star-wrapper">
               <star :size="48" :score="seller.score"></star>
             </div>
+            <div class="content-wrapper">
+              <div class="title">
+                <div class="line"></div>
+                <div class="text">优惠信息</div>
+                <div class="line"></div>
+              </div>
+              <ul v-if="seller.supports"
+                   class="supports">
+                <li class="support-item"
+                    v-for="(item, index) in seller.supports">
+                  <span class="theIcon" :class="classMap[item.type]"></span>
+                  <span class="text">{{item.description}}</span>
+                </li>
+              </ul>
+              <div class="title">
+                <div class="line"></div>
+                <div class="text">商家公告</div>
+                <div class="line"></div>
+              </div>
+              <div class="bulletin">
+                <p class="content">{{seller.bulletin}}</p>
+              </div>
+            </div>
 
           </div>
         </div>
-        <div class="detail-close" @click="hideDetail">
-          <svg class="icon" aria-hidden="true">
+        <div class="detail-close" >
+          <svg class="icon" aria-hidden="true"
+               @click="hideDetail">
             <use xlink:href="#icon-close"></use>
           </svg>
         </div>
@@ -90,6 +114,9 @@ export default {
     }
   },
   created() {
+    //classMap 必须与后台的数据一一对应
+    // 意义在于：后台第一个是减少  因为图片中有decrease
+    //所以我们加载背景图片的时候可以传入数组的元素名字就行  加以区分
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
   },
   components: {
@@ -216,6 +243,7 @@ export default {
     bottom: 0
     z-index: -1
 /*弹出页*/
+
   .detail
     position: fixed
     left: 0
@@ -223,21 +251,83 @@ export default {
     width: 100%
     height 100%
     overflow: auto
+    z-index: 300
     -webkit-backdrop-filter blur(10px)
-    opacity: 1
     background-color: rgba(7,17,27,0.8)
+    &.fade-enter-active, &.fade-leave-active {
+      opacity: 1
+      transition: all .5s
+    }
+    &.fade-enter, &.fade-leave-active {
+      opacity: 0
+      background: rgba(7,17,27,0)
+    }
     .detail-wrapper
       width: 100%
       min-height: 100%
       .detail-main
         padding-bottom: 64px
-        h1
+        .name
           margin: 0
           padding: 64px 0 16px 0
           font-size: 16px
           font-weight: 700
           line-height: 16px
           text-align: center
+        .star-wrapper
+          text-align: center
+          /*这里用的是80%  */
+        .content-wrapper
+          margin-top: 28px
+          padding: 0 10%
+          width: 80%
+        .title
+          display: flex
+          margin-bottom: 24px
+          .line
+            flex: 1
+            position: relative
+            top: -6px
+            border-bottom: 1px solid #61676d
+          .text
+            padding: 0 12px
+            font-size: 14px
+            font-weight: 700
+
+        .supports
+          margin-bottom: 28px
+          font-size: 0
+          .support-item
+            margin-bottom: 12px
+            &:last-child
+              margin-bottom: 0
+            .theIcon
+              display: inline-block
+              vertical-align top
+              margin-right: 6px
+              width: 16px
+              height: 16px
+              background-size: cover
+              background-repeat no-repeat
+              &.special
+                bg-image(special_2)
+              &.invoice
+                bg-image(invoice_2)
+              &.guarantee
+                bg-image(guarantee_2)
+              &.decrease
+                bg-image(decrease_2)
+              &.discount
+                bg-image(discount_2)
+
+            .text
+              height: 16px
+              font-size: 12px
+              line-height 16px
+        .bulletin
+          .content
+            font-size: 12px
+            line-height 24px
     .detail-close
       margin: -64px auto 0
       height: 32px
