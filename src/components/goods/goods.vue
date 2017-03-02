@@ -181,7 +181,6 @@ const ERR_OK = 0
         goods: [], //请求过来的商品
         scrollY: 0,
         listHeight: [],  //存储左侧li所对应右侧的高度
-
       }
     },
     computed: {

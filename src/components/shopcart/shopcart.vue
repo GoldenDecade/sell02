@@ -223,13 +223,13 @@
         left: 32px
         bottom: 21px
         z-index: 200
-        transition: all 2s cubic-bezier(0.49, -0.29, 0.75, 0.41)
+        transition: all .4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
         .inner
           width: 16px
           height: 16px
           border-radius: 50%
           background-color: red
-          transition: all 2s linear
+          transition: all .4s linear
   .list-mask
     position: fixed
     left: 0
@@ -291,19 +291,96 @@
           },
           {
             show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
+          },
+          {
+            show: false
           }
         ],  //默认有5个小球，避免快速点击加号的时候，没有小球出现
         dropBalls: []  //将正在下落的小球缓存起来
       }
     },//data
     methods: {
+      drop(el) {
+        for(let i =0; i< this.balls.length; i++) {
+          let ball = this.balls[i]
+          if(!ball.show) {
+            ball.el = el
+            ball.show = true
+            this.dropBalls.push(ball)
+            return
+          }
+        }
+      },
+      beforeDrop(el) {
+        let count = this.balls.length
+        while(count--) {
+          let ball = this.balls[count]
+          if(ball.show) {
+            let rect = ball.el.getBoundingClientRect()
+            let x = rect.left - 32
+            let y = -(window.innerHeight - rect.top - 22)
+            el.style.display = "" //必须要加上
+            el.style.webkitTransform = `translate3d(0, ${y}px, 0)`
+            el.style.transform = `translate3d(0, ${y}px, 0)`
+            let inner = el.getElementsByClassName('inner-hook')[0]
+            inner.style.webkitTransform = `translate3d(${x}px,0,0)`
+            inner.style.transform = `translate3d(${x}px,0,0)`
+          }
+        }
+      },
+      dropping(el, done) {
+        var rf = el.offsetHeight
+        this.$nextTick(()=> {
+          el.style.webkitTransform = 'translate3d(0,0,0)'
+          el.style.transform = 'translate3d(0,0,0)'
+          let inner = el.getElementsByClassName('inner-hook')[0]
+          inner.style.webkitTransform = 'translate3d(0,0,0)'
+          inner.style.transform = 'translate3d(0,0,0)'
+          el.addEventListener('transitionend', done);
+
+        })
+      },
+      afterDrop(el) {
+        let ball = this.dropBalls.shift()
+        if(ball.show) {
+          ball.show = false
+          el.style.display = "none"  //必须要加上
+        }
+      },
       //让第一个show为false的小球变为show：true
       // 并且标记为dropBall
       //当运动结束后，将dropBall的第一个ball清除掉
       //让ball的show变为false，
       // 同时el（小球）元素的的display为none隐藏
       //ball是一个对象  所以一直都在改变
-      drop(el) {   //el为加号元素
+    /*  drop(el) {   //el为加号元素
         for(let i=0; i< this.balls.length; i++) {
           let ball = this.balls[i]
           if(!ball.show) {
@@ -362,7 +439,7 @@
           ball.show = false;
           el.style.display = 'none';
         }
-      },
+      },*/
       //是否要显示折叠列表(但不是最终决定的)
       toggleList(){
         if (!this.totalCount) {

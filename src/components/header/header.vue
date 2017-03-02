@@ -96,7 +96,6 @@
 export default {
   props: {
     seller: {
-
       type : Object,
       required: true
     }
@@ -252,6 +251,7 @@ export default {
     width: 100%
     height 100%
     overflow: auto
+    z-index: 300
     -webkit-backdrop-filter blur(10px)
     background-color: rgba(7,17,27,0.8)
     &.fade-enter-active, &.fade-leave-active {
