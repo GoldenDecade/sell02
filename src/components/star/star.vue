@@ -6,7 +6,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-<<<<<<< HEAD
+
     const LENGTH = 5
     const CLS_ON = 'on'
     const CLS_HALF = 'half'
@@ -42,44 +42,9 @@
                 }
                 return result
             }
-=======
-  const LENGTH = 5;
-  const CLS_ON = 'on';
-  const CLS_HALF = 'half';
-  const CLS_OFF = 'off';
 
-  export default {
-    props: {
-      size: {
-        type: Number
-      },
-      score: {
-        type: Number
-      }
-    },
-    computed: {
-      starType() {
-        return 'star-' + this.size;
-      },
-      itemClasses() {
-        let result = [];
-        let score = Math.floor(this.score * 2) / 2;
-        let hasDecimal = score % 1 !== 0;
-        let integer = Math.floor(score);
-        for (let i = 0; i < integer; i++) {
-          result.push(CLS_ON);
         }
-        if (hasDecimal) {
-          result.push(CLS_HALF);
-        }
-        while (result.length < LENGTH) {
-          result.push(CLS_OFF);
->>>>>>> 71603fbb5f052feb94bb2c35398348dec7344bd1
-        }
-        return result;
-      }
-    }
-  };
+    };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -106,10 +71,10 @@
           bg-image('star48_off')
     &.star-36
       .star-item
-        width: 15px
-        height: 15px
+        width: 16px
+        height: 16px
         margin-right: 6px
-        background-size: 15px 15px
+        background-size: 16px 16px
         &:last-child
           margin-right: 0
         &.on
