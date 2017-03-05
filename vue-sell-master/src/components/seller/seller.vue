@@ -136,7 +136,8 @@
             if (!this.picScroll) {
               this.picScroll = new BScroll(this.$refs.picWrapper, {
                 scrollX: true,
-                eventPassthrough: 'vertical'
+                eventPassthrough: 'vertical'//忽略垂直方向上的滚动
+                //从而保证找横着滚动的时候，也不影响其他的竖向滚动
               });
             } else {
               this.picScroll.refresh();

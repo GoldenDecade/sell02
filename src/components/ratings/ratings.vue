@@ -196,6 +196,8 @@
             .text
               margin-bottom: 8px
             .recommend
+              .icon
+                margin-bottom: 2px
               .item
                 display: inline-block
                 vertical-align middle
