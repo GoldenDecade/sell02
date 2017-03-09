@@ -27,7 +27,8 @@
               <h2 class="title">{{ item.name }}</h2>
               <ul>
                 <li v-for="(food, index) in item.foods"
-                  class="food-item border-1px">
+                  @click="selectFood(food, $event)"
+                    class="food-item border-1px">
                   <div class="theIcon">
                     <img width="57" height="57" :src="food.icon">
                   </div>
@@ -61,7 +62,9 @@
           :selectFoods="selectFoods"
           ref="shopcart"
         ></shopcart>
-
+        <!--food-->
+        <food
+          ref="food" :food="selectedFood" ></food>
       </div>
   </div>
 </template>
@@ -168,7 +171,7 @@
 import BScroll from 'better-scroll'
 import shopcart from "components/shopcart/shopcart.vue"
 import cartcontrol from "components/cartcontrol/cartcontrol.vue"
-
+import food from "components/food/food.vue"
 const ERR_OK = 0
   export default{
     props: {
@@ -181,6 +184,7 @@ const ERR_OK = 0
         goods: [], //请求过来的商品
         scrollY: 0,
         listHeight: [],  //存储左侧li所对应右侧的高度
+        selectedFood: {}
       }
     },
     computed: {
@@ -229,6 +233,15 @@ const ERR_OK = 0
       })
     },
     methods: {
+      //点击右侧商品 显示商品详情
+      selectFood(food, event) {
+        if(!event._constructed) {
+          return
+        }
+        this.selectedFood = food
+        //显示出详情页
+        this.$refs.food.show()
+      },
       //初始化滚动
       _initScroll() {
         //左侧滑动
@@ -281,7 +294,8 @@ const ERR_OK = 0
     },
     components: {
       shopcart,
-      cartcontrol
+      cartcontrol,
+      food
     }
   }
 </script>

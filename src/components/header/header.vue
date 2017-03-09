@@ -125,7 +125,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus">
+<style scoped lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/iconfont.css"
   @import "../../common/stylus/mixin"
 .header

@@ -1,6 +1,7 @@
 <template>
   <transition name="move">
-    <div v-show="showFlag" class="food" ref="food">
+    <div v-show="showFlag" class="food"
+         ref="food">
       <div class="food-content">
         <div class="image-header">
           <img :src="food.image">
@@ -8,6 +9,7 @@
             <i class="icon-arrow_lift"></i>
           </div>
         </div>
+
         <div class="content">
           <h1 class="title">{{food.name}}</h1>
           <div class="detail">

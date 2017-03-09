@@ -53,7 +53,8 @@
                 :minPrice="seller.minPrice"></shopcart>
     </div>
 
-    <food @add="addFood" :food="selectedFood" ref="food"></food>
+    <food @add="addFood" :food="selectedFood"
+          ref="food"></food>
   </div>
 </template>
 
